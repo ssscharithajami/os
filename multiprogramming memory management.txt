@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+int main() {
+    pid_t pid = fork();
+
+    if (pid == 0) {
+        // Child process
+        printf("Child: Executing 'ls -l'\n");
+        execl("/bin/ls", "ls", "-l", NULL);
+        perror("exec failed");
+    } else {
+        // Parent process
+        printf("Parent: Waiting for child...\n");
+        wait(NULL);
+        printf("Parent: Child finished.\n");
+    }
+
+    return 0;
+}
